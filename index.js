@@ -11,6 +11,10 @@ app.use(cors())
 const API_KEY = process.env.API_KEY
 const BASE_URL = 'https://api.spoonacular.com/recipes/'
 
+app.get('/', (req, res) => {
+    res.json("Hello World");
+})
+
 //Random Recipes
 app.get('/random-recipes', async (req, res) => {
     const URL_EXTENSION = 'random'
