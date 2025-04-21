@@ -12,7 +12,7 @@ const API_KEY = process.env.API_KEY
 const BASE_URL = process.env.BASE_URL || 'https://api.spoonacular.com/recipes/'
 
 app.get('/', (req, res) => {
-    res.json("Hello World");
+    res.json("Recipe Finder Server");
 })
 
 //Random Recipes
