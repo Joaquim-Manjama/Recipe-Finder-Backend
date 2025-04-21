@@ -9,7 +9,7 @@ const app = express()
 app.use(cors())
 
 const API_KEY = process.env.API_KEY
-const BASE_URL = 'https://api.spoonacular.com/recipes/'
+const BASE_URL = process.env.BASE_URL || 'https://api.spoonacular.com/recipes/'
 
 app.get('/', (req, res) => {
     res.json("Hello World");
@@ -17,9 +17,8 @@ app.get('/', (req, res) => {
 
 //Random Recipes
 app.get('/random-recipes', async (req, res) => {
-    const URL_EXTENSION = 'random'
     try{
-        const response = await fetch(`${BASE_URL}${URL_EXTENSION}?apiKey=${API_KEY}&number=10`);
+        const response = await fetch(`${BASE_URL}random?apiKey=${API_KEY}&number=10`);
         const data = await response.json()
         res.json(data.recipes);
     } catch(err){
@@ -30,11 +29,10 @@ app.get('/random-recipes', async (req, res) => {
 
 //Seached Recipes
 app.get('/search-recipes', async (req, res) => {
-    const URL_EXTENSION = 'complexSearch';
 
     const { query } = req.query;
     try{
-        const response = await fetch(`${BASE_URL}${URL_EXTENSION}?apiKey=${API_KEY}&query=${query}`);
+        const response = await fetch(`${BASE_URL}complexSearch?apiKey=${API_KEY}&query=${query}`);
         const data = await response.json()
         res.json(data.results);
     } catch(err){
@@ -44,14 +42,13 @@ app.get('/search-recipes', async (req, res) => {
 
 //Get Recipe Info
 app.get('/recipe-info', async (req, res) => {
-    const URL_EXTENSION = 'information';
 
     const { query } = req.query;
 
     if (!query) return res.status(400).json({ error: 'Missing "query" parameter' });
     
     try{
-        const response = await fetch(`${BASE_URL}${query}/${URL_EXTENSION}?apiKey=${API_KEY}`);
+        const response = await fetch(`${BASE_URL}${query}/information?apiKey=${API_KEY}`);
         const data = await response.json()
         res.json(data);
     } catch(err){
